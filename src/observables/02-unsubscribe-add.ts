@@ -9,7 +9,7 @@ const observer: Observer<any> = {
 
 const intervalo$ = new Observable<number>( subscriber => {
 
-    // crear contador: 1, 2, 3, 4, 4, ....
+    // crear contador: 1, 2, 3, 4, 5,...
     let contador: number = 0;
     const interval = setInterval( () => {
         contador++;

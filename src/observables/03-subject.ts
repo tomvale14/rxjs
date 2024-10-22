@@ -7,6 +7,7 @@ const observer: Observer<any> = {
     complete: () => console.info('completado')
 };
 
+// Definición del Observable
 const intervalo$ = new Observable<number>( subs => {
 
     // define el subscriber
@@ -25,7 +26,7 @@ const intervalo$ = new Observable<number>( subs => {
  * Es un tipo de Observable. Características:
  * 
  *  1. Casteo múltiple: varias subscripciones sujetas al mismo Observable,
- *     sirviendo la misma información a todos los lugares suscritos.
+ *                      sirviendo la misma información a todos los lugares suscritos.
  *  2. Tambien es un Observer: se puede mandar como argumento al subscriber.
  *  3. Se puede manejar el next, error y complete.
  */
@@ -36,7 +37,7 @@ const subscription = intervalo$.subscribe( subject$ );   // se enlaza el subject
 //const subs1 = intervalo$.subscribe( rnd => console.log('subs1', rnd) );
 //const subs2 = intervalo$.subscribe( rnd => console.log('subs2', rnd) );
 
-// en lugar de suscribirse al intervalo$, se subscribe al subject$
+// en lugar de suscribirse al Observable 'intervalo$' se subscribe al Subject 'subject$'
 // => los valores emitidos son los mismos
 const subs1 = subject$.subscribe( observer );
 const subs2 = subject$.subscribe( observer );

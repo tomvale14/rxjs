@@ -1,4 +1,4 @@
-// interval y timer son asíncronos por naturaleza
+// interval y timer son ASINCRONOS por naturaleza
 import { interval, timer } from 'rxjs';
 
 // definición del observer
@@ -7,13 +7,13 @@ const observer = {
   complete: () => console.log('complete'),
 }
 
-const hoyEn5 = new Date();  // feacha actual
+const hoyEn5 = new Date();  // fecha actual
 hoyEn5.setSeconds( hoyEn5.getSeconds() + 5 ); // suma 5 sg
-
 
 
 // definición del observable
 const interval$ = interval(1000);
+
 // const timer$    = timer(2000);
 // const timer$    = timer(0);
 // const timer$    = timer(2000, 1000);  // inicia la secuencia despues de 2 sg y después cada sg
