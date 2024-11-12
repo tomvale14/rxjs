@@ -1,7 +1,7 @@
 import { of, from } from 'rxjs';
 
 /**
- * from => crea un Observable en base a un array, promise, observable, etc.
+ * from => crea un Observable en base a un array, promise, iterable, observable, etc.
  * of   => crea un Observable, toma argumentos y genera una secuencia
  */
 
@@ -14,7 +14,7 @@ const observer = {
 // genera el observable
 // const source$ = from([1,2,3,4,5]);    // 5 emisiones
 // const source$ = of(...[1,2,3,4,5]);   // => mismo efecto que con from
-// const source$ = of(...[1,2,3,4,5]);   // 1 emisión
+// const source$ = of([1,2,3,4,5]);      // 1 emisión
 // const source$ = from('Tomás');        // 1 emisión por cada carácter del string
 // const source$ = of('Tomás');          // 1 emisión
 
@@ -45,7 +45,7 @@ const miGenerador = function*() {
     yield 5;
 }
 const miIterable = miGenerador();
-// 
+
 from( miIterable ).subscribe( observer );
 
 // suscripción del observable con el observer

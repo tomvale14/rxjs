@@ -13,14 +13,15 @@ import { map, mapTo, pluck, tap } from 'rxjs/operators';
 /**
  * - Operador map
  * - Operador pluck: extrae el valor de una propiedad de un objeto
- *                   que se emite del observable
+ *                   que se emite del observable.
  * - Operador mapTo: cuando el Observable emite un valor, el operador mapTo('valor')
- *                   transforma la salida a 'valor'
+ *                   transforma la salida a 'valor'.
  */
 // 1. creación del observable que estará pendiente del DOM cuando se suelte una tecla
 const keyup$ = fromEvent<KeyboardEvent>( document, 'keyup' );
 
-// => si solo quiero trabajar con el código de la tecla, defino otro observable
+// => si solo quiero trabajar con el código de la tecla,
+//    defino otro observable (keyupCode$) por medio del operador 'map'
 const keyupCode$ = keyup$.pipe(
     //tap( event => console.log(event) ),
     map( event => event.code )
