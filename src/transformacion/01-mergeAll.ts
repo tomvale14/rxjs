@@ -1,0 +1,72 @@
+import { debounceTime, fromEvent, map, mergeAll, Observable, pluck } from "rxjs";
+import { ajax } from "rxjs/ajax";
+import { GitHubUser } from "../interfaces/gitbub-user.interface";
+
+// Referencias HTML
+const body = document.querySelector('body');
+const textInput = document.createElement('input');
+const orderList = document.createElement('ol');
+body.append( textInput, orderList );
+
+// Helper mostrar HTML
+const mostrarUsuarios = ( usuarios: GitHubUser[] ) => {
+
+    console.log(usuarios);
+    orderList.innerHTML = '';
+
+    for( const usuario of usuarios ) {
+        const li = document.createElement('li');
+        const img = document.createElement('img');
+        img.src = usuario.avatar_url;
+
+        const anchor  = document.createElement('a');
+        anchor.href   = usuario.html_url;
+        anchor.text   = 'Ver página';
+        anchor.target = '_blank';
+
+        li.append( img );
+        li.append( usuario.login + ' ');
+        li.append( anchor );
+
+        orderList.append(li);
+    }
+}
+
+// Streams
+const  input$ = fromEvent<KeyboardEvent >( textInput, 'keyup' );
+
+// input$.pipe(
+//   debounceTime(500),
+//   map( event => {
+//     const texto = event.target['value'];
+       // retorna un nuevo observable
+//     return ajax.getJSON(
+//       `https://api.github.com/users/${ texto }`
+//     )
+//   })
+// ).subscribe( resp => {
+//   resp.pipe(
+//     pluck('url')
+//   )
+//   .subscribe( console.log );
+// });
+
+/**
+ * mergeAll()   sirve para trabajar con observables que internamente retornan observables.
+ * mergeAll controla todas las subscripcciones que tiene internamente y emite todos
+ * sus valores. Hasta que todos los observables hijos que hayan sido registrados
+ * por mergeAll se completen, no se lanza el complete de la suscripcción inicial.
+ * Flattening operators: unificación obserbables en una única salida.
+ */
+input$.pipe(
+  debounceTime<KeyboardEvent>(500),
+  pluck<KeyboardEvent>('target', 'value'),
+  // map( event => event.target['value']),
+  // map retorna un nuevo observable
+  map( texto => ajax.getJSON(
+      `https://api.github.com/search/users?q=${ texto }`
+  )),
+  // => mergeAll se subscribe al nuevo observable y emite los valores
+  mergeAll(),
+  pluck('items')
+).subscribe( console.log );
